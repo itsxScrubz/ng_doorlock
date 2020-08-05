@@ -40,8 +40,6 @@ autoLock()
 ---------------------------
 -- Event Handlers --
 ---------------------------
-
-
 -- //Setting Master List// --
 AddEventHandler('onResourceStart', function(resourceName)
     if GetCurrentResourceName() == resourceName then
@@ -97,11 +95,11 @@ AddEventHandler('ng_doorlock_sv:lockAtNight', function(toggle)
                         and not doorInfo[a].doors[b].isLocked
                         and not isNight
                         then
-                        isNight = true
                         doorInfo[a].doors[b].isLocked = true
                     end
                 end
             end
+            isNight = true
         end
     else
         if isNight then
@@ -111,11 +109,11 @@ AddEventHandler('ng_doorlock_sv:lockAtNight', function(toggle)
                         and doorInfo[a].doors[b].isLocked
                         and isNight
                         then
-                        isNight = false
                         doorInfo[a].doors[b].isLocked = false
                     end
                 end
             end
+            isNight = false
         end
     end
 end)
