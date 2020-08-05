@@ -1,33 +1,12 @@
 ---------------------------
 -- Variables --
 ---------------------------
- ESX = nil
-
+ESX = nil
 local doorInfo = {}
 local isNight = false
 
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
----------------------------
--- Callback --
----------------------------
-if not Config.EnableESX then
-    DRP.NetCallbacks.Register('ng_doorlock_sv:checkJob', function(data, send)
-        local src = source
-        local plyJob = nil
-        local plyData = exports['drp_id']:GetCharacterData(src)
-        local results = exports['externalsql']:AsyncQuery({
-            query = [[SELECT * FROM `characters` WHERE `id` = :char_id]],
-            data = {char_id = plyData.charid}
-        })
-        if #results['data'] >= 1 then
-            for k, v in pairs(results['data']) do
-                plyJob = v.job
-            end
-        end
-        send(plyJob)
-    end)
-end
 
 ---------------------------
 -- Threads --
