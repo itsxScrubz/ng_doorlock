@@ -23,7 +23,6 @@ Utilities = {
                 Citizen.Wait(0)
             end
 			if multi then
-				--'anim@mp_player_intmenu@key_fob@', 'fob_click'
                 TaskPlayAnim(player, data.dict, data.name, data.blendin, data.blendout, data.duration, data.flag, data.pbr, 0, 0, 0)
                 TaskPlayAnim(p2, data.dict, data.name, data.blendin, data.blendout, data.duration, data.flag, data.pbr, 0, 0, 0)
             else
