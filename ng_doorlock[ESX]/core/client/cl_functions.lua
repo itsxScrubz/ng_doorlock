@@ -43,8 +43,8 @@ Utilities = {
 			if job == v then
 				return true
 			end
-			return false
 		end
+		return false
 	end,
 	AssignDoors = function(data, multi, value)
 		if multi then
