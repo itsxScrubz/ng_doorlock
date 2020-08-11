@@ -2,7 +2,7 @@
 -- Variables --
 ---------------------------
 -- //©_Scrubz#0001_© ^_^// --
--- //NextGen Framework Pulbic Release// --
+-- //NextGen Framework Public Release// --
 ESX = nil
 Data = {
     Current = {
