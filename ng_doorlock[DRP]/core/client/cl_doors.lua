@@ -109,20 +109,51 @@ function disableFuccBoisFromShootingLockedDoorsOpen()
                 local doorSingle = nil
                 local door1 = nil
                 local door2 = nil
-                if Data.Current.Doors[i].doubleDoor then
-                    if Data.Current.Doors[i].multiModel then
-                        local model1 = nil
-                        local model2 = nil
-                        for k, v in pairs(Data.Current.Doors[i].doorModel) do
-                            if k == 1 then
-                                model1 = v
-                            elseif k == 2 then
-                                model2 = v
+                if Data.Current.Doors[i].isGate then
+                    local gate = GetClosestObjectOfType(Data.Current.Doors[i].doorPos, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(Data.Current.Doors[i].doorModel), false, false, false)
+                    FreezeEntityPosition(gate, Data.Current.Doors[i].isLocked)
+                else
+                    if Data.Current.Doors[i].doubleDoor then
+                        if Data.Current.Doors[i].multiModel then
+                            local model1 = nil
+                            local model2 = nil
+                            for k, v in pairs(Data.Current.Doors[i].doorModel) do
+                                if k == 1 then
+                                    model1 = v
+                                elseif k == 2 then
+                                    model2 = v
+                                end
+                                for m, n in pairs(Data.Current.Doors[i].doorPos) do
+                                    if k == 1 then
+                                        if door1 == nil then
+                                            door1 = GetClosestObjectOfType(n, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(model1), false, false, false)
+                                        end
+                                        local currentHeading1 = GetEntityHeading(door1)
+                                        if currentHeading1 ~= Data.Current.Doors[i].heading1 then
+                                            if Data.Current.Doors[i].isLocked then
+                                                SetEntityRotation(door1, 0, 0, Data.Current.Doors[i].heading1)
+                                            end
+                                        end
+                                        FreezeEntityPosition(door1, Data.Current.Doors[i].isLocked)
+                                    elseif k == 2 then
+                                        if door2 == nil then
+                                            door2 = GetClosestObjectOfType(n, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(model2), false, false, false)
+                                        end
+                                        local currentHeading2 = GetEntityHeading(door2)
+                                        if currentHeading2 ~= Data.Current.Doors[i].heading2 then
+                                            if Data.Current.Doors[i].isLocked then
+                                                SetEntityRotation(door2, 0, 0, Data.Current.Doors[i].heading2)
+                                            end
+                                        end
+                                        FreezeEntityPosition(door2, Data.Current.Doors[i].isLocked)
+                                    end
+                                end
                             end
-                            for m, n in pairs(Data.Current.Doors[i].doorPos) do
+                        else
+                            for k, v in pairs(Data.Current.Doors[i].doorPos) do
                                 if k == 1 then
                                     if door1 == nil then
-                                        door1 = GetClosestObjectOfType(n, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(model1), false, false, false)
+                                        door1 = GetClosestObjectOfType(v, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(Data.Current.Doors[i].doorModel), false, false, false)
                                     end
                                     local currentHeading1 = GetEntityHeading(door1)
                                     if currentHeading1 ~= Data.Current.Doors[i].heading1 then
@@ -133,7 +164,7 @@ function disableFuccBoisFromShootingLockedDoorsOpen()
                                     FreezeEntityPosition(door1, Data.Current.Doors[i].isLocked)
                                 elseif k == 2 then
                                     if door2 == nil then
-                                        door2 = GetClosestObjectOfType(n, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(model2), false, false, false)
+                                        door2 = GetClosestObjectOfType(v, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(Data.Current.Doors[i].doorModel), false, false, false)
                                     end
                                     local currentHeading2 = GetEntityHeading(door2)
                                     if currentHeading2 ~= Data.Current.Doors[i].heading2 then
@@ -146,43 +177,17 @@ function disableFuccBoisFromShootingLockedDoorsOpen()
                             end
                         end
                     else
-                        for k, v in pairs(Data.Current.Doors[i].doorPos) do
-                            if k == 1 then
-                                if door1 == nil then
-                                    door1 = GetClosestObjectOfType(v, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(Data.Current.Doors[i].doorModel), false, false, false)
-                                end
-                                local currentHeading1 = GetEntityHeading(door1)
-                                if currentHeading1 ~= Data.Current.Doors[i].heading1 then
-                                    if Data.Current.Doors[i].isLocked then
-                                        SetEntityRotation(door1, 0, 0, Data.Current.Doors[i].heading1)
-                                    end
-                                end
-                                FreezeEntityPosition(door1, Data.Current.Doors[i].isLocked)
-                            elseif k == 2 then
-                                if door2 == nil then
-                                    door2 = GetClosestObjectOfType(v, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(Data.Current.Doors[i].doorModel), false, false, false)
-                                end
-                                local currentHeading2 = GetEntityHeading(door2)
-                                if currentHeading2 ~= Data.Current.Doors[i].heading2 then
-                                    if Data.Current.Doors[i].isLocked then
-                                        SetEntityRotation(door2, 0, 0, Data.Current.Doors[i].heading2)
-                                    end
-                                end
-                                FreezeEntityPosition(door2, Data.Current.Doors[i].isLocked)
+                        if doorSingle == nil then
+                            doorSingle = GetClosestObjectOfType(Data.Current.Doors[i].doorPos, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(Data.Current.Doors[i].doorModel), false, false, false)
+                        end
+                        local currentHeading = GetEntityHeading(doorSingle)
+                        if currentHeading ~= Data.Current.Doors[i].heading then
+                            if Data.Current.Doors[i].isLocked then
+                                SetEntityRotation(doorSingle, 0, 0, Data.Current.Doors[i].heading)
                             end
                         end
+                        FreezeEntityPosition(doorSingle, Data.Current.Doors[i].isLocked)
                     end
-                else
-                    if doorSingle == nil then
-                        doorSingle = GetClosestObjectOfType(Data.Current.Doors[i].doorPos, Data.Current.Doors[i].unlockDistance + 0.0, GetHashKey(Data.Current.Doors[i].doorModel), false, false, false)
-                    end
-                    local currentHeading = GetEntityHeading(doorSingle)
-                    if currentHeading ~= Data.Current.Doors[i].heading then
-                        if Data.Current.Doors[i].isLocked then
-                            SetEntityRotation(doorSingle, 0, 0, Data.Current.Doors[i].heading)
-                        end
-                    end
-                    FreezeEntityPosition(doorSingle, Data.Current.Doors[i].isLocked)
                 end
             end
         end
